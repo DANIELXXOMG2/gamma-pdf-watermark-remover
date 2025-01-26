@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Watermark Remover</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background-color: #1a1a1a; /* Very Dark Metallic Grey */
+            color: #e0e0e0; /* Light Grey Text */
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #282828; /* Dark Metallic Grey Container */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            color: #ddd; /* Slightly lighter text for heading */
+            font-weight: bold;
+            letter-spacing: -0.5px;
+        }
+        .file-upload-wrapper {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .file-upload-input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            z-index: 1;
+        }
+        .file-upload-button {
+            display: block;
+            padding: 15px 25px;
+            border-radius: 8px;
+            background-color: #4a4a4a; /* Darker Metallic Button */
+            color: #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: 2px solid #555; /* Slightly visible border */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .file-upload-button:hover {
+            background-color: #555;
+            border-color: #666;
+        }
+        .file-upload-button i {
+            margin-right: 10px;
+        }
+        .file-upload-text {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #bbb; /* Muted text */
+        }
+        button[type="submit"] {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            background-color: #7b68ee; /* Dark Purple Accent */
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1.1em;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+        }
+        button[type="submit"]:hover {
+            background-color: #6a5acd; /* Slightly lighter purple on hover */
+        }
+        .notification {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            color: #fff;
+            display: none; /* Hidden by default */
+        }
+        .notification.error {
+            background-color: #d32f2f; /* Red for errors */
+        }
+        .notification.success {
+            background-color: #43a047; /* Green for success */
+        }
+        .notification i {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-tint-slash"></i> Gamma AI Watermark Remover</h1>
+
+        <form action="/remove_watermark" method="post" enctype="multipart/form-data">
+            <div class="file-upload-wrapper">
+                <input type="file" name="pdf_file" class="file-upload-input" accept=".pdf" required id="pdfFile">
+                <div class="file-upload-button">
+                    <i class="fas fa-upload"></i> Choose PDF File
+                </div>
+                <span class="file-upload-text" id="fileNameText">No file chosen.</span>
+            </div>
+
+            <button type="submit"><i class="fas fa-magic"></i> Remove Watermark</button>
+        </form>
+
+        <div id="notification-area">
+            <div class="notification error" id="error-notification">
+                <i class="fas fa-times-circle"></i> <span id="error-message"></span>
+            </div>
+            <div class="notification success" id="success-notification">
+                <i class="fas fa-check-circle"></i> <span id="success-message"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.file-upload-input').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'No file chosen.';
+            document.getElementById('fileNameText').textContent = fileName;
+        });
+    </script>
+</body>
+</html>
