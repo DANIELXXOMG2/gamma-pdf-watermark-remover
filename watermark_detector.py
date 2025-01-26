@@ -5,9 +5,11 @@ import numpy as np
 from config import WatermarkConfig
 
 class WatermarkDetector:
-    def __init__(self, template_histogram=None, similarity_threshold=WatermarkConfig.SIMILARITY_THRESHOLD):
+    def __init__(self, template_histogram=None, inverted_template_histogram=None, similarity_threshold=WatermarkConfig.SIMILARITY_THRESHOLD, similarity_inverted_threshold=WatermarkConfig.SIMILARITY_INVERTED_THRESHOLD):
         self.template_histogram = template_histogram if template_histogram else WatermarkConfig.get_template_histogram_array()
+        self.inverted_template_histogram = inverted_template_histogram if inverted_template_histogram else np.array(WatermarkConfig.INVERTED_TEMPLATE_HISTOGRAM)
         self.similarity_threshold = similarity_threshold
+        self.similarity_inverted_threshold = similarity_inverted_threshold
 
     def calculate_histogram(self, image_data):
         img = Image.open(io.BytesIO(image_data)).convert('L')
@@ -37,22 +39,39 @@ class WatermarkDetector:
                         image_bytes = base_image["image"]
                         if image_bytes:
                             current_hist = self.calculate_histogram(image_bytes)
+
                             similarity = self.compare_histograms(self.template_histogram, current_hist)
+                            inverted_similarity = self.compare_histograms(self.inverted_template_histogram, current_hist)
 
-                            print(f"  Similarity of image xref:{xref} on page {page_num + 1}: {similarity * 100:.2f}%")
+                            print(f"  Similarity (normal) of image xref:{xref} on page {page_num + 1}: {similarity * 100:.2f}%")
+                            print(f"  Similarity (inverted) of image xref:{xref} on page {page_num + 1}: {inverted_similarity * 100:.2f}%")
 
+                            is_watermark = False
                             if similarity >= self.similarity_threshold:
+                                print(f"  - Normal similarity exceeds threshold ({self.similarity_threshold * 100:.0f}%)")
+                                is_watermark = True
+                                final_similarity = similarity
+                            if inverted_similarity >= self.similarity_inverted_threshold:
+                                print(f"  - Inverted similarity exceeds threshold ({self.similarity_inverted_threshold * 100:.0f}%)")
+                                is_watermark = True
+                                final_similarity = inverted_similarity 
+
+                            if is_watermark:
                                 image_name = f"Image_{img_index}.{base_image['ext']}"
                                 images_to_remove_info.append({
                                     'page': page_num,
                                     'xref': xref,
                                     'image_name': image_name,
-                                    'similarity': similarity
+                                    'similarity': final_similarity 
                                 })
                                 print(f"Watermark candidate found on page {page_num + 1}:")
                                 print(f"  Image name: {image_name}, xref: {xref}")
-                                print(f"  Similarity to watermark template: {similarity * 100:.2f}%")
+                                print(f"  Similarity to watermark template: {final_similarity * 100:.2f}%")
                                 print("-" * 50)
+                            else:
+                                print("  Not a watermark based on both normal and inverted histograms.")
+                                print("-" * 50)
+
                         else:
                             print(f"  - Error: Could not get image bytes for xref {xref} on page {page_num + 1}.")
 
@@ -62,7 +81,7 @@ class WatermarkDetector:
             pdf_document.close()
 
             if not images_to_remove_info:
-                print(f"No watermarks found with threshold {self.similarity_threshold * 100:.0f}% in PDF.")
+                print(f"No watermarks found with thresholds (normal: {self.similarity_threshold * 100:.0f}%, inverted: {self.similarity_inverted_threshold * 100:.0f}%) in PDF.")
             return images_to_remove_info, None
 
         except Exception as e:
