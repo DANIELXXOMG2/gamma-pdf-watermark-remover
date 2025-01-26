@@ -61,7 +61,7 @@ Ready to remove those Gamma AI watermarks from your presentations? Here's how to
 1. **Clone the Repository:**  Clone this GitHub repository to your local machine:
 
    ```bash
-   git clone github.com/DedInc/gamma-ai-watermark-remover.git
+   git clone https://github.com/DedInc/gamma-ai-watermark-remover.git
    cd gamma-ai-watermark-remover
    ```
 
