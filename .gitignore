@@ -136,6 +136,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# Uploads and Outputs
+uploads/
+outputs/
+
 # Spyder project settings
 .spyderproject
 .spyproject

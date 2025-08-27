@@ -1,6 +1,25 @@
-.dockerignore
-Dockerfile
+# Git and Docker config
 .git
 .github
 .gitignore
+.dockerignore
+Dockerfile
+
+# Python cache and virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+.venv/
+env/
+venv/
+
+# Test files
+tests/
+
+# Documentation and local files
 README.md
+uploads/
+outputs/
