@@ -4,3 +4,5 @@ python-multipart
 jinja2
 PyMuPDF
 aiofiles
+pytest
+httpx

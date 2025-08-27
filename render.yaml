@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: gamma-ai-watermark-remover
+    env: docker
+    repo: https://github.com/danielxxomg/gamma-ai-watermark-remover
+    region: oregon
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: '3.10'
+      - key: PORT
+        value: 8000
+    autoDeploy: false
