@@ -6,3 +6,4 @@ PyMuPDF
 aiofiles
 pytest
 httpx
+pytest-asyncio
