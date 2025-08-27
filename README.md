@@ -15,7 +15,7 @@
 
 ## 🌟 Gamma PDF Watermark Remover: Refactored Edition
 
-This is a significantly improved and refactored version of the original [gamma-ai-watermark-remover](https://github.com/DedInc/gamma-ai-watermark-remover) project. This edition has been completely re-engineered for enhanced efficiency, maintainability, and security, with major contributions from **[Daniel Guerrero](https://github.com/danielxxomg)**.
+This is a significantly improved and refactored version of the original [gamma-ai-watermark-remover](https://github.com/DedInc/gamma-ai-watermark-remover) project. This edition has been completely re-engineered for enhanced efficiency, maintainability, and security, with major contributions from **[danielxxomg](https://github.com/danielxxomg)**.
 
 This tool is designed for anyone who needs to present documents without the distraction of third-party branding, making it ideal for students, educators, and professionals.
 
@@ -89,10 +89,22 @@ Open your browser and navigate to: `http://localhost:8000`
 
 ---
 
+## 🔮 Future Enhancements
+
+This project is actively evolving. Future updates will include:
+
+*   **PPTX File Support:** Extend the watermark removal capabilities to PowerPoint files.
+*   **Expanded Resource Library:** Additional documentation, tutorials, and community-contributed resources.
+*   **Advanced Customization:** More granular control over the removal process.
+
+Stay tuned for these exciting updates!
+
+---
+
 ## 🙏 Acknowledgements
 
 *   **Original Author:** [Vladislav Zenkevich (DedInc)](https://github.com/DedInc) for creating the initial proof-of-concept.
-*   **Lead Contributor (Refactoring):** [Daniel Guerrero](https://github.com/danielxxomg) for the complete re-engineering, optimization, and security enhancements.
+*   **Lead Contributor (Refactoring):** [danielxxomg](https://github.com/danielxxomg) for the complete re-engineering, optimization, and security enhancements.
 
 <div align="center">
   <p>✨ <b>Enjoy your clean, professional PDFs!</b> ✨</p>
