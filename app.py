@@ -30,7 +30,7 @@ def allowed_file(filename: str) -> bool:
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     """Main page"""
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(name="index.html", context={"request": request})
 
 @app.post("/remove_watermark")
 async def remove_watermark(request: Request, pdf_file: UploadFile = File(...)):
@@ -39,14 +39,14 @@ async def remove_watermark(request: Request, pdf_file: UploadFile = File(...)):
     # File validation
     if not pdf_file.filename:
         return templates.TemplateResponse(
-            "index.html",
-            {"request": request, "error_message": "No file selected. Please choose a PDF file."}
+            name="index.html",
+            context={"request": request, "error_message": "No file selected. Please choose a PDF file."}
         )
 
     if not allowed_file(pdf_file.filename):
         return templates.TemplateResponse(
-            "index.html",
-            {"request": request, "error_message": "Invalid file type. Please upload a PDF file."}
+            name="index.html",
+            context={"request": request, "error_message": "Invalid file type. Please upload a PDF file."}
         )
 
     # Secure filename
@@ -83,16 +83,16 @@ async def remove_watermark(request: Request, pdf_file: UploadFile = File(...)):
             else:
                 success_message = 'Gamma.app watermarks not found in PDF.'
                 return templates.TemplateResponse(
-                    "index.html",
-                    {"request": request, "success_message": success_message}
+                    name="index.html",
+                    context={"request": request, "success_message": success_message}
                 )
 
         except Exception as e:
             error_message = f'Error processing file: {str(e)}'
             print(f"Error: {error_message}")
             return templates.TemplateResponse(
-                "index.html",
-                {"request": request, "error_message": error_message}
+                name="index.html",
+                context={"request": request, "error_message": error_message}
             )
         finally:
             # Remove temporary file
@@ -106,13 +106,13 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     """HTTP error handler"""
     if exc.status_code == 404:
         return templates.TemplateResponse(
-            "index.html",
-            {"request": request, "error_message": "Page not found."},
+            name="index.html",
+            context={"request": request, "error_message": "Page not found."},
             status_code=404
         )
     return templates.TemplateResponse(
-        "index.html",
-        {"request": request, "error_message": f"Server error: {exc.detail}"},
+        name="index.html",
+        context={"request": request, "error_message": f"Server error: {exc.detail}"},
         status_code=exc.status_code
     )
 
@@ -120,8 +120,8 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
 async def general_exception_handler(request: Request, exc: Exception):
     """General error handler"""
     return templates.TemplateResponse(
-        "index.html",
-        {"request": request, "error_message": f"Internal server error: {str(exc)}"},
+        name="index.html",
+        context={"request": request, "error_message": f"Internal server error: {str(exc)}"},
         status_code=500
     )
 
