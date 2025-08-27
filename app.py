@@ -5,9 +5,7 @@ from fastapi import FastAPI, File, UploadFile, Request
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from werkzeug.utils import secure_filename
-from watermark_detector import WatermarkDetector
-from watermark_remover import WatermarkRemover
+from pdf_processor import PDFProcessor, secure_filename
 
 # Create necessary directories
 UPLOAD_FOLDER = 'uploads'
@@ -22,9 +20,8 @@ app = FastAPI(title="Gamma AI Watermark Remover", version="2.0.0")
 # Template configuration
 templates = Jinja2Templates(directory="templates")
 
-# Initialize detector and remover
-detector = WatermarkDetector()
-remover = WatermarkRemover()
+# Initialize processor
+processor = PDFProcessor()
 
 def allowed_file(filename: str) -> bool:
     """Checks allowed file type"""
@@ -65,25 +62,17 @@ async def remove_watermark(request: Request, pdf_file: UploadFile = File(...)):
             temp_input.write(content)
             temp_input.flush()
 
-            # Identify elements to remove
-            print(f"Analyzing file: {filename}")
-            elements_to_remove, error = detector.identify_watermarks(upload_path)
+            # Create output filename
+            output_filename = f'processed_{filename}'
+            output_path = os.path.join(OUTPUT_FOLDER, output_filename)
 
-            if error:
-                raise Exception(error)
+            # Remove watermarks using new algorithm
+            print(f"Processing file: {filename}")
+            images_removed, links_removed = processor.clean_pdf(upload_path, output_path)
 
-            if elements_to_remove:
-                # Create output filename
-                output_filename = f'processed_{filename}'
-                output_path = os.path.join(OUTPUT_FOLDER, output_filename)
-
-                # Remove watermarks using new algorithm
-                print(f"Removing watermarks...")
-                images_removed, links_removed = remover.clean_pdf_from_target_domain(upload_path, output_path)
-
-                total_removed = images_removed + links_removed
+            total_removed = images_removed + links_removed
+            if total_removed > 0:
                 success_message = f'Watermarks successfully removed! Elements removed: {total_removed} (images: {images_removed}, links: {links_removed})'
-
                 # Return processed file
                 return FileResponse(
                     output_path,

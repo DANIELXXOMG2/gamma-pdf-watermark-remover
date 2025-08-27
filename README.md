@@ -1,4 +1,4 @@
-# 💧✨ Gamma AI Watermark Remover ✨💧
+# 💧✨ Gamma AI Watermark Remover (v2.0 Refactored) ✨💧
 
 <div align="center">
   <img src="https://img.shields.io/badge/Python-3.7+-blue.svg?style=flat-square&logo=python&logoColor=white" alt="Python Version">
@@ -13,49 +13,86 @@
 
 ---
 
-## 🌟 What is Gamma AI Watermark Remover?
+## 🌟 Gamma PDF Watermark Remover: Refactored Edition
 
-A specialized web application designed to remove **gamma.app** watermarks from PDF files. This tool specifically targets Gamma AI's branding elements that appear in PDFs exported from their free tier, helping you create clean, professional-looking documents.
+This is a significantly improved and refactored version of the original [gamma-ai-watermark-remover](https://github.com/DedInc/gamma-ai-watermark-remover) project. This edition has been completely re-engineered for enhanced efficiency, maintainability, and security, with major contributions from **[Daniel Guerrero](https://github.com/danielxxomg)**.
 
-## 🤔 Why do you need it?
+This tool is designed for anyone who needs to present documents without the distraction of third-party branding, making it ideal for students, educators, and professionals.
 
-Gamma AI is a fantastic presentation tool, but the watermarks in the free version can be problematic for professional and educational use:
+## 🤔 Why This Version?
 
-* **Professional Presentations:** Remove distracting branding for business meetings and formal presentations
-* **Educational Materials:** Create clean study materials and academic presentations  
-* **Portfolio Work:** Present your content without third-party branding
-* **Document Clarity:** Improve focus and readability by removing visual distractions
+While the original tool was functional, this version introduces critical improvements:
 
-## ⚙️ How does it work?
+*   **Optimized Architecture:** The PDF processing logic has been consolidated into a single, efficient module (`pdf_processor.py`), adhering to the Single Responsibility Principle.
+*   **Improved Performance:** The workflow now operates on a single-pass read/write basis, reducing I/O overhead and increasing speed.
+*   **Reduced Dependencies:** The `Werkzeug` dependency has been eliminated by implementing an internal `secure_filename` function, making the project more lightweight.
+*   **Clean & Maintainable Code:** `app.py` has been refactored for clarity, and obsolete files have been removed, resulting in a cleaner, more maintainable codebase.
 
-The application uses an intelligent detection and removal system:
+## ⚙️ How It Works
 
-1. **PDF Analysis:** Parses PDF documents page by page using PyMuPDF (fitz)
-2. **Targeted Detection:** Identifies gamma.app watermarks by analyzing images positioned in the bottom-right corner and links pointing to gamma.app domain
-3. **Smart Removal:** Removes detected watermarks while preserving document integrity
-4. **Clean Output:** Generates a watermark-free PDF ready for professional use
+The detection and removal system has been optimized for precision and performance:
 
-## 🚀 Installation & Setup
+1.  **Efficient PDF Parsing:** It uses `PyMuPDF` to analyze the document in a single, efficient operation.
+2.  **Accurate Detection:** It identifies `gamma.app` watermarks by analyzing images in the bottom-right corner and their associated hyperlinks.
+3.  **Single-Pass Removal:** It removes the detected elements and saves the new PDF in a single, streamlined workflow.
+4.  **Clean Output:** The result is a clean, watermark-free PDF, ready for professional use.
 
-1. **Install Dependencies:**
-   ```bash
-   pip install -r requirements.txt --upgrade
-   ```
+## 🚀 Getting Started
 
-2. **Start the Server:**
-   ```bash
-   python app.py
-   ```
+Follow these steps to set up your development environment.
 
-3. **Access the Web Interface:**
-   Open your browser and navigate to: `http://localhost:8000`
+### 1. Clone the Repository
 
-4. **Upload and Process:**
-   - Click "Choose PDF File" to select your Gamma AI PDF
-   - Click "Remove Watermark" to process the file
-   - Download the clean PDF automatically
+```bash
+git clone https://github.com/danielxxomg/gamma-pdf-watermark-remover.git
+cd gamma-pdf-watermark-remover
+```
+
+### 2. Create and Activate a Virtual Environment
+
+Using a virtual environment is a best practice for managing project dependencies.
+
+**Create the environment:**
+```bash
+python -m venv venv
+```
+
+**Activate the environment:**
+- On **Windows**:
+  ```bash
+  .\venv\Scripts\activate
+  ```
+- On **macOS & Linux**:
+  ```bash
+  source venv/bin/activate
+  ```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt --upgrade
+```
+
+### 4. Run the Server
+
+```bash
+python app.py
+```
+
+### 5. Access the Web Interface
+Open your browser and navigate to: `http://localhost:8000`
+
+### 6. Upload and Process
+- Click "Choose PDF File" to select your Gamma AI PDF.
+- Click "Remove Watermark" to process the file.
+- The cleaned PDF will be downloaded automatically.
 
 ---
+
+## 🙏 Acknowledgements
+
+*   **Original Author:** [Vladislav Zenkevich (DedInc)](https://github.com/DedInc) for creating the initial proof-of-concept.
+*   **Lead Contributor (Refactoring):** [Daniel Guerrero](https://github.com/danielxxomg) for the complete re-engineering, optimization, and security enhancements.
 
 <div align="center">
   <p>✨ <b>Enjoy your clean, professional PDFs!</b> ✨</p>
