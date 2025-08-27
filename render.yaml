@@ -1,8 +1,8 @@
 services:
   - type: web
     name: gamma-ai-watermark-remover
-    env: docker
-    repo: https://github.com/danielxxomg/gamma-ai-watermark-remover
+    runtime: docker
+    repo: https://github.com/danielxxomg2/gamma-pdf-watermark-remover
     region: oregon
     plan: free
     healthCheckPath: /
